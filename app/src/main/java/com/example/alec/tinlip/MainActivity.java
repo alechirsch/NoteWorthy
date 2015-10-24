@@ -76,8 +76,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //location.setText("Latitude: " + values[0] + "  Longitude: " + values[1] + "  Accuracy: " + values[2]);
                 location.setText("Latitude: " + loc.getLatitude() + "  Longitude: " + loc.getLongitude() + "  Accuracy: " + loc.getAccuracy());
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+  
             }
         });
     }
