@@ -3,6 +3,7 @@ package com.example.alec.tinlip;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -15,31 +16,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
+    Button submit;
+    Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final TextView locationLong = (TextView) findViewById(R.id.textViewLong);
         final TextView locationLat = (TextView) findViewById(R.id.textViewLat);
-        final TextView locationAcc = (TextView) findViewById(R.id.textViewAcc);
+        final TextView locationAlt = (TextView) findViewById(R.id.textViewAlt);
+        final TextView locationNote = (TextView) findViewById(R.id.textViewNote);
+        final TextView locationTime = (TextView) findViewById(R.id.textViewTime);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        final double[] values = new double[3];
-        values[0]++;
 
         LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         LocationListener listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                values[0] = location.getLatitude();
-                values[1] = location.getLongitude();
-                values[2] = location.getAccuracy();
 
             }
 
@@ -70,9 +69,24 @@ public class MainActivity extends AppCompatActivity {
         }
         manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
         final Location loc = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        locationLong.setText("Latitude: " + loc.getLatitude());
-        locationLat.setText("Longitude: " + loc.getLongitude());
-        locationAcc.setText("Accuracy: " + loc.getAccuracy());
+        DatabaseOperations DB = new DatabaseOperations(context);
+        DB.insert(DB, loc.getLatitude(), loc.getLongitude(), loc.getAltitude(), "The Note!!!");
+
+//        submit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
+//                final Location loc = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//
+//            }
+//        });
+        Cursor cr = DB.getNote(DB);
+        cr.moveToFirst();
+        locationLong.setText("Latitude: " + cr.getString(0));
+        locationLat.setText("Longitude: " + cr.getString(1));
+        locationAlt.setText("Altitude: " + cr.getString(2));
+        locationNote.setText("Note: " + cr.getString(3));
+        locationTime.setText("Time: " + cr.getString(4));
 
     }
 
