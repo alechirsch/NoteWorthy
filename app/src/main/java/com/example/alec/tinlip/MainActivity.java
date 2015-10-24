@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         if(cr.moveToLast()) {
             locationLong.setText("Latitude: " + cr.getString(0));
             locationLat.setText("Longitude: " + cr.getString(1));
-            locationAlt.setText("Altitude: " + cr.getString(2));
+            locationAlt.setText("Number of Notes: " + cr.getCount());
             locationNote.setText("Note: " + cr.getString(3));
             locationTime.setText("Time: " + cr.getString(4));
         }
