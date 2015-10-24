@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         final TextView locationNote = (TextView) findViewById(R.id.textViewNote);
         final TextView locationTime = (TextView) findViewById(R.id.textViewTime);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         LocationListener listener = new LocationListener() {
@@ -42,17 +42,14 @@ public class MainActivity extends AppCompatActivity {
             public void onLocationChanged(Location location) {
 
             }
-
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
 
             }
-
             @Override
             public void onProviderEnabled(String provider) {
 
             }
-
             @Override
             public void onProviderDisabled(String provider) {
 
@@ -71,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
         final Location loc = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         DatabaseOperations DB = new DatabaseOperations(context);
-        DB.insert(DB, loc.getLatitude(), loc.getLongitude(), loc.getAltitude(), "The Note!!!");
+        //DB.insert(DB, loc.getLatitude(), loc.getLongitude(), loc.getAltitude(), "The Note!!!");
 //        submit.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -81,13 +78,13 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
         Cursor cr = DB.getNote(DB);
-        cr.moveToFirst();
-        locationLong.setText("Latitude: " + cr.getString(0));
-        locationLat.setText("Longitude: " + cr.getString(1));
-        locationAlt.setText("Altitude: " + cr.getString(2));
-        locationNote.setText("Note: " + cr.getString(3));
-        locationTime.setText("Time: " + cr.getString(4));
-
+        if(cr.moveToLast()) {
+            locationLong.setText("Latitude: " + cr.getString(0));
+            locationLat.setText("Longitude: " + cr.getString(1));
+            locationAlt.setText("Altitude: " + cr.getString(2));
+            locationNote.setText("Note: " + cr.getString(3));
+            locationTime.setText("Time: " + cr.getString(4));
+        }
     }
 
     @Override

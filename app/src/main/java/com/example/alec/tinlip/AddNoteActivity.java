@@ -1,15 +1,24 @@
 package com.example.alec.tinlip;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 
 public class AddNoteActivity extends AppCompatActivity {
 
-    final EditText noteText = (EditText) findViewById(R.id.noteText);
+    EditText noteText;
+    DatabaseOperations DB = new DatabaseOperations(this);
+    LocationManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,15 +26,8 @@ public class AddNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_note);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        noteText = (EditText) findViewById(R.id.noteText);
+        manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     }
 
     // TODO(kgeffen) Maybe, see how it looks before putting in work
@@ -36,7 +38,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
     // TODO(kgeffen)
     // Submit button interacts with sql, adding the note
-    @Override
+
     public void addNote(View v) {
         // If text box had no content, don't add the note
         // TODO(kgeffen) Get the text field
@@ -46,10 +48,21 @@ public class AddNoteActivity extends AppCompatActivity {
 
         // Add entry to db
         // Get gps data
-
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for Activity#requestPermissions for more details.
+            return;
+        }
+        Location loc = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         // Format and push to sqlLite
 
+        DB.insert(DB, loc.getLatitude(), loc.getLongitude(), loc.getAltitude(), noteText.getText().toString());
 
         // Empty the text box
         noteText.setText("");
