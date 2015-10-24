@@ -23,7 +23,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final TextView location = (TextView) findViewById(R.id.textView);
+        final TextView locationLong = (TextView) findViewById(R.id.textViewLong);
+        final TextView locationLat = (TextView) findViewById(R.id.textViewLat);
+        final TextView locationAcc = (TextView) findViewById(R.id.textViewAcc);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,17 +70,10 @@ public class MainActivity extends AppCompatActivity {
         }
         manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
         final Location loc = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        location.setText("Latitude: " + loc.getLatitude() + "  Longitude: " + loc.getLongitude() + "  Accuracy: " + loc.getAccuracy());
+        locationLong.setText("Latitude: " + loc.getLatitude());
+        locationLat.setText("Longitude: " + loc.getLongitude());
+        locationAcc.setText("Accuracy: " + loc.getAccuracy());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //location.setText("Latitude: " + values[0] + "  Longitude: " + values[1] + "  Accuracy: " + values[2]);
-                location.setText("Latitude: " + loc.getLatitude() + "  Longitude: " + loc.getLongitude() + "  Accuracy: " + loc.getAccuracy());
-  
-            }
-        });
     }
 
     @Override
