@@ -9,6 +9,8 @@ import android.view.View;
 
 public class AddNoteActivity extends AppCompatActivity {
 
+    final EditText noteText = (EditText) findViewById(R.id.noteText);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +26,35 @@ public class AddNoteActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    // TODO(kgeffen) Maybe, see how it looks before putting in work
+    // 
+    // Whenever activity is viewed it should reset the textbox to empty
+    // http://stackoverflow.com/questions/18703841/call-method-on-activity-load-android
+    
+
+    // TODO(kgeffen)
+    // Submit button interacts with sql, adding the note
+    @Override
+    public void addNote(View v) {
+        // If text box had no content, don't add the note
+        // TODO(kgeffen) Get the text field
+        if( noteText.getText().toString().equals("") ) {
+            return;
+        }
+
+        // Add entry to db
+        // Get gps data
+
+
+        // Format and push to sqlLite
+
+
+        // Empty the text box
+        noteText.setText("");
+
+        // TODO(kgeffen) Display the confirmation snapbar
     }
 
 }
