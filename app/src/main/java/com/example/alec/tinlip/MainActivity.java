@@ -2,6 +2,7 @@ package com.example.alec.tinlip;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
@@ -71,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         final Location loc = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         DatabaseOperations DB = new DatabaseOperations(context);
         DB.insert(DB, loc.getLatitude(), loc.getLongitude(), loc.getAltitude(), "The Note!!!");
-
 //        submit.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -110,5 +110,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void toAddNote(View view){
+        Intent intent = new Intent(this, AddNoteActivity.class);
+        startActivity(intent);
+    }
+
+    public void toViewNotes(View view){
+        Intent intent = new Intent(this, ViewNotesActivity.class);
+        startActivity(intent);
     }
 }
