@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "Tinlip";
     private static final String TEXT_TYPE = " TEXT";
     private static final String REAL_TYPE = " REAL";
@@ -72,16 +72,10 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         return cr;
     }
 
-    public Cursor getNotes(DatabaseOperations dop){
+    public Cursor getNotes(DatabaseOperations dop, double currLat, double currLong){
         SQLiteDatabase db = dop.getReadableDatabase();
-        String[] columns = {TableData.TableInfo.COLUMN_NAME_NOTE};
+        String[] columns = {TableData.TableInfo.COLUMN_NAME_NOTE, TableData.TableInfo.COLUMN_NAME_LATITUDE, TableData.TableInfo.COLUMN_NAME_LONGITUDE};
         Cursor cr = db.query(TableData.TableInfo.TABLE_NAME, columns, null, null, null, null, "_ID DESC");
-//        Cursor cr = db.rawQuery("SELECT note, (3959 * acos (cos ( radians(78.3232) )" +
-//                    " * cos( radians( lat ) ) * cos( radians( lng ) - radians(65.3234) )" +
-//                    " + sin ( radians(78.3232) )* sin( radians( lat ) ))) AS distance " +
-//                "FROM " + TableData.TableInfo.TABLE_NAME + " " +
-//                "HAVING distance < 5/5280 " +
-//                "ORDER BY _ID DESC;", columns);
         return cr;
     }
 }

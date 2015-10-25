@@ -55,28 +55,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
-        final Location loc = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        final Location loc = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         DatabaseOperations DB = new DatabaseOperations(context);
-        //DB.insert(DB, loc.getLatitude(), loc.getLongitude(), loc.getAltitude(), "The Note!!!");
-//        submit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
-//                final Location loc = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-//
-//            }
-//        });
+
         Cursor cr = DB.getNote(DB);
         if(cr.moveToLast()) {
             locationLong.setText("Latitude: " + cr.getString(0));
