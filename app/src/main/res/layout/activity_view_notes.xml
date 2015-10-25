@@ -20,6 +20,13 @@
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/ic_close"
                 android:onClick="toGoHome"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="24dp"
+                android:text="Notes Near You"/>
             <android.support.design.widget.FloatingActionButton android:id="@+id/add"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

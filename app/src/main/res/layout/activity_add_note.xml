@@ -20,6 +20,13 @@
                 android:layout_margin="@dimen/fab_margin"
                 android:src="@drawable/ic_menu"
                 android:onClick="toViewNotes"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="24dp"
+                android:text="New Note"/>
             <android.support.design.widget.FloatingActionButton android:id="@+id/add"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -31,17 +38,5 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_add_note" />
-
-    <EditText android:id="@+id/noteText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-    <android.support.design.widget.FloatingActionButton android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:src="@drawable/ic_action_add"
-        android:onClick="addNote"/>
 
 </android.support.design.widget.CoordinatorLayout>

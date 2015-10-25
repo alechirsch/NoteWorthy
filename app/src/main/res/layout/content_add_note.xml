@@ -9,4 +9,21 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_add_note" tools:context="com.example.alec.tinlip.AddNote">
 
+
+    <EditText android:id="@+id/noteText"
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your note here..." />
+
+    <Button android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/noteText"
+        android:layout_marginTop="60dp"
+        android:text="Add Note"
+        android:onClick="addNote"/>
+
+
 </RelativeLayout>
