@@ -71,4 +71,17 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         Cursor cr = db.query(TableData.TableInfo.TABLE_NAME, columns, null, null, null, null, null);
         return cr;
     }
+
+    public Cursor getNotes(DatabaseOperations dop){
+        SQLiteDatabase db = dop.getReadableDatabase();
+        String[] columns = {TableData.TableInfo.COLUMN_NAME_NOTE};
+        Cursor cr = db.query(TableData.TableInfo.TABLE_NAME, columns, null, null, null, null, "_ID DESC");
+//        Cursor cr = db.rawQuery("SELECT note, (3959 * acos (cos ( radians(78.3232) )" +
+//                    " * cos( radians( lat ) ) * cos( radians( lng ) - radians(65.3234) )" +
+//                    " + sin ( radians(78.3232) )* sin( radians( lat ) ))) AS distance " +
+//                "FROM " + TableData.TableInfo.TABLE_NAME + " " +
+//                "HAVING distance < 5/5280 " +
+//                "ORDER BY _ID DESC;", columns);
+        return cr;
+    }
 }

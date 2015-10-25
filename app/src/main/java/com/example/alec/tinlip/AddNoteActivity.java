@@ -2,6 +2,7 @@ package com.example.alec.tinlip;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -65,7 +66,9 @@ public class AddNoteActivity extends AppCompatActivity {
         DB.insert(DB, loc.getLatitude(), loc.getLongitude(), loc.getAltitude(), noteText.getText().toString());
 
         // Empty the text box
-        noteText.setText("");
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
 
         // TODO(kgeffen) Display the confirmation snapbar
     }
