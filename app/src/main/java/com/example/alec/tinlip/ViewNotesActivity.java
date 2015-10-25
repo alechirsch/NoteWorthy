@@ -62,16 +62,20 @@ public class ViewNotesActivity extends AppCompatActivity {
             double lon = cr.getDouble(2);
             double currlat = loc.getLatitude();
             double currlon = loc.getLongitude();
-            double distance = (
-                    3959 * Math.acos (
-                            Math.cos ( Math.toRadians(currlat) )
-                                    * Math.cos( Math.toRadians( lat ) )
-                                    * Math.cos( Math.toRadians( lon ) - Math.toRadians(currlon) )
-                                    + Math.sin ( Math.toRadians(currlat) )
-                                    * Math.sin( Math.toRadians( lat ) )
-                    )
-            );
-            if(distance < 5.0/5280){
+            Location noteLocation = new Location("");
+            noteLocation.setLatitude(lat);
+            noteLocation.setLongitude(lon);
+            double distance = loc.distanceTo(noteLocation);
+//            double distance = (
+//                    3959 * Math.acos (
+//                            Math.cos ( Math.toRadians(currlat) )
+//                                    * Math.cos( Math.toRadians( lat ) )
+//                                    * Math.cos( Math.toRadians( lon ) - Math.toRadians(currlon) )
+//                                    + Math.sin ( Math.toRadians(currlat) )
+//                                    * Math.sin( Math.toRadians( lat ) )
+//                    )
+//            );
+            if(distance < 5){//5.0/5280){
                 dataList.add(cr.getString(0));
             }
         }

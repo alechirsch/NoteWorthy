@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "Tinlip";
     private static final String TEXT_TYPE = " TEXT";
     private static final String REAL_TYPE = " REAL";
