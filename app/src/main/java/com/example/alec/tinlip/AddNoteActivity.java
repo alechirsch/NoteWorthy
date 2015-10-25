@@ -25,8 +25,6 @@ public class AddNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         noteText = (EditText) findViewById(R.id.noteText);
         manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
     }
@@ -64,6 +62,15 @@ public class AddNoteActivity extends AppCompatActivity {
         startActivity(intent);
 
         // TODO(kgeffen) Display the confirmation snapbar
+    }
+    public void toGoHome(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void toViewNotes(View view){
+        Intent intent = new Intent(this, ViewNotesActivity.class);
+        startActivity(intent);
     }
 
 }

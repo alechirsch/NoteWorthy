@@ -3,6 +3,7 @@ package com.example.alec.tinlip;
 import android.Manifest;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
@@ -78,6 +79,15 @@ public class ViewNotesActivity extends AppCompatActivity {
         listview.setAdapter(adapter);
 
 
+    }
+    public void toGoHome(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void toAddNote(View view){
+        Intent intent = new Intent(this, ViewNotesActivity.class);
+        startActivity(intent);
     }
 
 }
