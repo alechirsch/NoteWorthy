@@ -6,27 +6,29 @@
     android:layout_height="match_parent" android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary">
+    <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent">
 
-        <android.support.design.widget.FloatingActionButton android:id="@+id/index"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_action_reload"
-            android:onClick="toViewNotes"/>
-        <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_action_add"
-            android:onClick="toAddNote"/>
-    </android.support.v7.widget.Toolbar>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.FloatingActionButton android:id="@+id/index"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_action_reload"
+                android:onClick="com.example.alec.tinlip.MainActivity.toViewNotes"/>
+            <android.support.design.widget.FloatingActionButton android:id="@+id/add"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/ic_action_add"
+                android:onClick="toAddNote"/>
+        </FrameLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />
 

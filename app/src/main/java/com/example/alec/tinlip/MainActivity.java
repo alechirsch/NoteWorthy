@@ -33,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
         final TextView locationNote = (TextView) findViewById(R.id.textViewNote);
         final TextView locationTime = (TextView) findViewById(R.id.textViewTime);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         LocationListener listener = new LocationListener() {
             @Override
@@ -103,4 +100,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ViewNotesActivity.class);
         startActivity(intent);
     }
+
 }
