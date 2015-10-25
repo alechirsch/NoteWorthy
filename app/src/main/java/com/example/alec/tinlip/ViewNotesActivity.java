@@ -103,7 +103,7 @@ public class ViewNotesActivity extends AppCompatActivity {
     }
 
     public void toAddNote(View view){
-        Intent intent = new Intent(this, ViewNotesActivity.class);
+        Intent intent = new Intent(this, AddNoteActivity.class);
         startActivity(intent);
     }
 
