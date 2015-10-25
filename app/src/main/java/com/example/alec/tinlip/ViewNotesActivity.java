@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,7 +28,8 @@ public class ViewNotesActivity extends AppCompatActivity {
 
     LocationManager manager;
     public Location currentLocation;
-    final ListView listview;
+    ListView listview;
+    DatabaseOperations DB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class ViewNotesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_notes);
 
         listview = (ListView) findViewById(R.id.listview);
-
+        DB = new DatabaseOperations(this);
 
         // LISTENER
         LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -84,7 +86,6 @@ public class ViewNotesActivity extends AppCompatActivity {
     }
 
     private void updateText() {
-        DatabaseOperations DB = new DatabaseOperations(this);
         
         Cursor cr = DB.getNotes(DB);
 
@@ -95,16 +96,13 @@ public class ViewNotesActivity extends AppCompatActivity {
             Location noteLocation = new Location("");
             noteLocation.setLatitude(lat);
             noteLocation.setLongitude(lon);
-            double distance = location.distanceTo(noteLocation);
+            double distance = currentLocation.distanceTo(noteLocation);
 
-            if(distance < 2){//5.0/5280){
+            if(distance < 5){
                 dataList.add(cr.getString(0) + "   lat: " + lat +"    lon: " + lon);
             }
         }
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i] + " lat: ");
-        }
+
         final ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, dataList);
         listview.setAdapter(adapter);
