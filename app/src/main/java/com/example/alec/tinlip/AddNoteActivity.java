@@ -55,7 +55,7 @@ public class AddNoteActivity extends AppCompatActivity {
             public void onProviderDisabled(String provider) {
 
             }
-            private static final int FIVE_SECONDS = 1000 * 5;
+            private static final int TIME = 500;
 
             protected boolean isBetterLocation(Location location, Location currentBestLocation) {
                 if (currentBestLocation == null) {
@@ -65,8 +65,8 @@ public class AddNoteActivity extends AppCompatActivity {
 
                 // Check whether the new location fix is newer or older
                 long timeDelta = location.getTime() - currentBestLocation.getTime();
-                boolean isSignificantlyNewer = timeDelta > FIVE_SECONDS;
-                boolean isSignificantlyOlder = timeDelta < -FIVE_SECONDS;
+                boolean isSignificantlyNewer = timeDelta > TIME;
+                boolean isSignificantlyOlder = timeDelta < -TIME;
                 boolean isNewer = timeDelta > 0;
 
                 // If it's been more than two minutes since the current location, use the new location
