@@ -75,17 +75,11 @@ public class AddNoteActivity extends AppCompatActivity {
             return;
         }
 
-        // Add entry to db
-        // Get gps data
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        Location location = currentLocation;
-
         // Format and push to sqlLite
 
-        DB.insert(DB, location.getLatitude(), location.getLongitude(), noteText.getText().toString());
-
+        if(currentLocation != null) {
+            DB.insert(DB, currentLocation.getLatitude(), currentLocation.getLongitude(), noteText.getText().toString());
+        }
         // Empty the text box
 
         Intent intent = new Intent(this, MainActivity.class);
@@ -93,10 +87,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
         // TODO(kgeffen) Display the confirmation snapbar
     }
-    public void toGoHome(View view){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
+
 
     public void toViewNotes(View view){
         Intent intent = new Intent(this, ViewNotesActivity.class);
