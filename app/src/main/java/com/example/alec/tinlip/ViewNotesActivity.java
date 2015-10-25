@@ -68,19 +68,9 @@ public class ViewNotesActivity extends AppCompatActivity {
 
         };
         manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
-        manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
         updateText();
 
         // END LISTENER
-
-
-
-
-
-
-
-        
-        
 
         updateText();
     }
@@ -98,7 +88,7 @@ public class ViewNotesActivity extends AppCompatActivity {
             noteLocation.setLongitude(lon);
             double distance = currentLocation.distanceTo(noteLocation);
 
-            if(distance < 5){
+            if(distance < 8){
                 dataList.add(cr.getString(0) + "   lat: " + lat +"    lon: " + lon);
             }
         }

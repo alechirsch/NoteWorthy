@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +21,7 @@ public class AddNoteActivity extends AppCompatActivity {
     EditText noteText;
     DatabaseOperations DB = new DatabaseOperations(this);
     LocationManager manager;
+    Location currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,34 @@ public class AddNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_note);
         noteText = (EditText) findViewById(R.id.noteText);
         manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        currentLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        LocationListener listener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                currentLocation = location;
+            }
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+
+
+        };
+        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
     }
 
     // TODO(kgeffen) Maybe, see how it looks before putting in work
@@ -50,7 +80,7 @@ public class AddNoteActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        Location location = MainActivity.currentLocation;
+        Location location = currentLocation;
 
         // Format and push to sqlLite
 

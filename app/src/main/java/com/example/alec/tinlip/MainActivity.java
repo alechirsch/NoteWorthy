@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
         };
         manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
-        manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
         updateText();
     }
 
