@@ -25,35 +25,66 @@ import java.util.ArrayList;
 public class ViewNotesActivity extends AppCompatActivity {
 
     LocationManager manager;
+    public Location currentLocation;
+    final ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_notes);
 
-        manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        listview = (ListView) findViewById(R.id.listview);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        String[] mobileArray = {"Android","IPhone","WindowsMobile","Blackberry","WebOS","Ubuntu","Windows7","Max OS X"};
-//        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_view_notes, mobileArray);
-//
-//        ListView listView = (ListView) findViewById(R.id.list);
-//        listView.setAdapter(adapter);
 
-        final ListView listview = (ListView) findViewById(R.id.listview);
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
-        DatabaseOperations DB = new DatabaseOperations(this);
-
+        // LISTENER
+        LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+        currentLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        
+        LocationListener listener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                currentLocation = location;
+                updateText();
+            }
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
 
-        Location location = MainActivity.currentLocation;
+            }
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+
+
+        };
+        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
+        manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
+        updateText();
+
+        // END LISTENER
+
+
+
+
+
+
+
+        
+        
+
+        updateText();
+    }
+
+    private void updateText() {
+        DatabaseOperations DB = new DatabaseOperations(this);
+        
         Cursor cr = DB.getNotes(DB);
 
         final ArrayList<String> dataList = new ArrayList<String>();
@@ -76,8 +107,6 @@ public class ViewNotesActivity extends AppCompatActivity {
         final ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, dataList);
         listview.setAdapter(adapter);
-
-
     }
 
 }
