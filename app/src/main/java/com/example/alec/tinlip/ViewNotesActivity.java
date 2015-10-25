@@ -53,35 +53,25 @@ public class ViewNotesActivity extends AppCompatActivity {
             return;
         }
 
-        Location loc = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Cursor cr = DB.getNotes(DB, loc.getLatitude(), loc.getLongitude());
+        Location location = MainActivity.currentLocation;
+        Cursor cr = DB.getNotes(DB);
 
         final ArrayList<String> dataList = new ArrayList<String>();
         while(cr.moveToNext()){
             double lat = cr.getDouble(1);
             double lon = cr.getDouble(2);
-            double currlat = loc.getLatitude();
-            double currlon = loc.getLongitude();
             Location noteLocation = new Location("");
             noteLocation.setLatitude(lat);
             noteLocation.setLongitude(lon);
-            double distance = loc.distanceTo(noteLocation);
-//            double distance = (
-//                    3959 * Math.acos (
-//                            Math.cos ( Math.toRadians(currlat) )
-//                                    * Math.cos( Math.toRadians( lat ) )
-//                                    * Math.cos( Math.toRadians( lon ) - Math.toRadians(currlon) )
-//                                    + Math.sin ( Math.toRadians(currlat) )
-//                                    * Math.sin( Math.toRadians( lat ) )
-//                    )
-//            );
-            if(distance < 5){//5.0/5280){
-                dataList.add(cr.getString(0));
+            double distance = location.distanceTo(noteLocation);
+
+            if(distance < 2){//5.0/5280){
+                dataList.add(cr.getString(0) + "   lat: " + lat +"    lon: " + lon);
             }
         }
         final ArrayList<String> list = new ArrayList<String>();
         for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
+            list.add(values[i] + " lat: ");
         }
         final ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, dataList);

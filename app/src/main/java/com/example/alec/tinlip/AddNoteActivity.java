@@ -52,11 +52,11 @@ public class AddNoteActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        Location loc = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location location = MainActivity.currentLocation;
 
         // Format and push to sqlLite
 
-        DB.insert(DB, loc.getLatitude(), loc.getLongitude(), loc.getAltitude(), noteText.getText().toString());
+        DB.insert(DB, location.getLatitude(), location.getLongitude(), noteText.getText().toString());
 
         // Empty the text box
 

@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class DatabaseOperations extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "Tinlip";
     private static final String TEXT_TYPE = " TEXT";
     private static final String REAL_TYPE = " REAL";
@@ -24,7 +24,6 @@ public class DatabaseOperations extends SQLiteOpenHelper {
                     TableData.TableInfo._ID + " INTEGER PRIMARY KEY," +
                     TableData.TableInfo.COLUMN_NAME_LATITUDE + REAL_TYPE + COMMA_SEP +
                     TableData.TableInfo.COLUMN_NAME_LONGITUDE + REAL_TYPE + COMMA_SEP +
-                    TableData.TableInfo.COLUMN_NAME_ALTITUDE + REAL_TYPE + COMMA_SEP +
                     TableData.TableInfo.COLUMN_NAME_NOTE + TEXT_TYPE + COMMA_SEP +
                     TableData.TableInfo.COLUMN_NAME_TIME_STAMP + TEXT_TYPE +
 
@@ -53,12 +52,11 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void insert(DatabaseOperations dop, double latitude, double longitude, double altitude, String note){
+    public void insert(DatabaseOperations dop, double latitude, double longitude, String note){
         SQLiteDatabase db = dop.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(TableData.TableInfo.COLUMN_NAME_LATITUDE, latitude);
         cv.put(TableData.TableInfo.COLUMN_NAME_LONGITUDE, longitude);
-        cv.put(TableData.TableInfo.COLUMN_NAME_ALTITUDE, altitude);
         cv.put(TableData.TableInfo.COLUMN_NAME_NOTE, note);
         cv.put(TableData.TableInfo.COLUMN_NAME_TIME_STAMP, new Date().toString());
         long success = db.insert(TableData.TableInfo.TABLE_NAME, null, cv);
@@ -72,7 +70,7 @@ public class DatabaseOperations extends SQLiteOpenHelper {
         return cr;
     }
 
-    public Cursor getNotes(DatabaseOperations dop, double currLat, double currLong){
+    public Cursor getNotes(DatabaseOperations dop){
         SQLiteDatabase db = dop.getReadableDatabase();
         String[] columns = {TableData.TableInfo.COLUMN_NAME_NOTE, TableData.TableInfo.COLUMN_NAME_LATITUDE, TableData.TableInfo.COLUMN_NAME_LONGITUDE};
         Cursor cr = db.query(TableData.TableInfo.TABLE_NAME, columns, null, null, null, null, "_ID DESC");

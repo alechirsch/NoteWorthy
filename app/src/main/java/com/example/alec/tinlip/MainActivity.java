@@ -20,24 +20,33 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
     Button submit;
     Context context = this;
+    public static Location currentLocation;
+    TextView locationLong;
+    TextView locationLat;
+    TextView locationTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final TextView locationLong = (TextView) findViewById(R.id.textViewLong);
-        final TextView locationLat = (TextView) findViewById(R.id.textViewLat);
-        final TextView locationAlt = (TextView) findViewById(R.id.textViewAlt);
-        final TextView locationNote = (TextView) findViewById(R.id.textViewNote);
-        final TextView locationTime = (TextView) findViewById(R.id.textViewTime);
+        locationLat = (TextView) findViewById(R.id.textViewLat);
+        locationLong = (TextView) findViewById(R.id.textViewLong);
+        locationTime = (TextView) findViewById(R.id.textViewTime);
 
         LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        currentLocation = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         LocationListener listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-
+                currentLocation = location;
+                updateText();
             }
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -51,22 +60,12 @@ public class MainActivity extends AppCompatActivity {
             public void onProviderDisabled(String provider) {
 
             }
+
+
         };
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        final Location loc = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        DatabaseOperations DB = new DatabaseOperations(context);
-
-        Cursor cr = DB.getNote(DB);
-        if(cr.moveToLast()) {
-            locationLong.setText("Latitude: " + cr.getString(0));
-            locationLat.setText("Longitude: " + cr.getString(1));
-            locationAlt.setText("Number of Notes: " + cr.getCount());
-            locationNote.setText("Note: " + cr.getString(3));
-            locationTime.setText("Time: " + cr.getString(4));
-        }
+        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
+        manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
+        updateText();
     }
 
     @Override
@@ -101,4 +100,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void updateText(){
+        locationLong.setText("Latitude: " + currentLocation.getLatitude());
+        locationLat.setText("Longitude: " + currentLocation.getLongitude());
+        locationTime.setText(new Date().toString());
+    }
 }
