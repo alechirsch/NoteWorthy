@@ -89,7 +89,7 @@ public class ViewNotesActivity extends AppCompatActivity {
             double distance = currentLocation.distanceTo(noteLocation);
 
             if(distance < 8){
-                dataList.add(cr.getString(0) + "   lat: " + lat +"    lon: " + lon);
+                dataList.add(cr.getString(0));
             }
         }
 

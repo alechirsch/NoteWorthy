@@ -26,16 +26,11 @@ public class MainActivity extends AppCompatActivity {
     Button submit;
     Context context = this;
     public static Location currentLocation;
-    TextView locationLong;
-    TextView locationLat;
-    TextView locationTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        locationLat = (TextView) findViewById(R.id.textViewLat);
-        locationLong = (TextView) findViewById(R.id.textViewLong);
-        locationTime = (TextView) findViewById(R.id.textViewTime);
 
         LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -46,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLocationChanged(Location location) {
                 currentLocation = location;
-                updateText();
             }
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -64,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         };
         manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
-        updateText();
     }
 
     @Override
@@ -97,11 +90,5 @@ public class MainActivity extends AppCompatActivity {
     public void toViewNotes(View view){
         Intent intent = new Intent(this, ViewNotesActivity.class);
         startActivity(intent);
-    }
-
-    private void updateText(){
-        locationLong.setText("Latitude: " + currentLocation.getLatitude());
-        locationLat.setText("Longitude: " + currentLocation.getLongitude());
-        locationTime.setText(new Date().toString());
     }
 }
