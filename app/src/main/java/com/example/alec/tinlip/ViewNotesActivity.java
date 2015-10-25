@@ -132,26 +132,27 @@ public class ViewNotesActivity extends AppCompatActivity {
     }
 
     private void updateText() {
-        
-        Cursor cr = DB.getNotes(DB);
+        if(currentLocation != null) {
+            Cursor cr = DB.getNotes(DB);
 
-        final ArrayList<String> dataList = new ArrayList<String>();
-        while(cr.moveToNext()){
-            double lat = cr.getDouble(1);
-            double lon = cr.getDouble(2);
-            Location noteLocation = new Location("");
-            noteLocation.setLatitude(lat);
-            noteLocation.setLongitude(lon);
-            double distance = currentLocation.distanceTo(noteLocation);
+            final ArrayList<String> dataList = new ArrayList<String>();
+            while (cr.moveToNext()) {
+                double lat = cr.getDouble(1);
+                double lon = cr.getDouble(2);
+                Location noteLocation = new Location("");
+                noteLocation.setLatitude(lat);
+                noteLocation.setLongitude(lon);
+                double distance = currentLocation.distanceTo(noteLocation);
 
-            if(distance < 8){
-                dataList.add(cr.getString(0));
+                if (distance < 8) {
+                    dataList.add(cr.getString(0));
+                }
             }
-        }
 
-        final ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, dataList);
-        listview.setAdapter(adapter);
+            final ArrayAdapter adapter = new ArrayAdapter(this,
+                    android.R.layout.simple_list_item_1, dataList);
+            listview.setAdapter(adapter);
+        }
     }
     public void toGoHome(View view){
         Intent intent = new Intent(this, MainActivity.class);
